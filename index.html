@@ -1,0 +1,143 @@
+<!--
+  This webpage features two interactive activities: the Browser Dashboard and the Guess the Word game. 
+  The Browser Dashboard let us interact with browser history, reload the page, change the document title, 
+  and view important browser details and informations.
+  The Guess the Word game is a fun challenge where players have a limited number of attempts to guess a hidden word. 
+  Players are given hints and feedback as they progress through the game.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Homepage</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    .header-container {
+      background-color: #0077b6;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      border-bottom: 5px solid #023e8a;
+    }
+
+    .header-container h1 {
+      margin: 0 0 10px 0;
+      font-size: 28px;
+    }
+
+    .profile-info {
+      max-width: 700px;
+      margin: 30px auto 0;
+      padding: 20px;
+      background-color: #ffffff;
+      color: #333;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap; /* Makes it responsive */
+    }
+
+    .profile-text {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .profile-text p {
+      margin: 8px 0;
+    }
+
+    .profile-img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #0077b6;
+    }
+
+    .activity-links-container {
+      background-color: #f0f8ff;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 30px auto;
+      max-width: 700px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .activity-links-container h2 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .activity-button {
+      display: inline-block;
+      margin: 10px 15px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background-color: #0077b6;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .activity-button:hover {
+      background-color: #023e8a;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="header-container">
+    <h1>Joan Mae Bonion Palaypayon</h1>
+  </div>
+
+  <!-- My Personal Information Section -->
+  <div class="profile-info">
+    <div class="profile-text">
+      <p><strong>Sex:</strong> Female</p>
+      <p><strong>Address:</strong> Ponglon, San Jose, Camarines Sur</p>
+      <p><strong>Course/Year/Section:</strong> BSIT_2B</p>
+      <p><strong>Name of School:</strong> Partido State University (PSU)</p>
+      <p><strong>Semester and Academic Year:</strong> 2nd Sem / 2024–2025</p>
+      <p><strong>Subject Code and Title:</strong> PF2 – Event Driven Programming</p>
+      <p><strong>Instructor:</strong> Arjay Abio</p>
+    </div>
+    <img src="img.jpg" alt="Joan Mae B. Palaypayon" class="profile-img" />
+  </div>
+
+  <!-- Activity Links Container -->
+  <div class="activity-links-container">
+    <h2>My Activities</h2>
+    <a href="guess_the_game.html" class="activity-button" target="_blank" rel="noopener noreferrer">Guess the Secret Word Game</a>
+    <a href="browser_dashboard.html" class="activity-button" target="_blank" rel="noopener noreferrer">Browser Environment Dashboard</a>
+    <a href="dom_traversal.html" class="activity-button" target="_blank" rel="noopener noreferrer">DOM Traversal Interactive</a>
+    <a href="interactive_canvas.html" class="activity-button" target="_blank" rel="noopener noreferrer">Interactive Canvas Shape Editor</a>
+  </div>
+
+  <script>
+    const colors = ['#e6f7ff', '#ffe6e6', '#f0fff0', '#f9f9f9', '#fff0f5', '#fffacd'];
+    let currentColor = 0;
+  
+    setInterval(() => {
+      document.body.style.backgroundColor = colors[currentColor];
+      currentColor = (currentColor + 1) % colors.length;
+    }, 3000); 
+  </script>
+  
+</body>
+</html>

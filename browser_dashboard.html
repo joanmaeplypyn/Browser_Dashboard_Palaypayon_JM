@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Browser Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #9ed2ff;
+      margin: 20px 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.5s ease;
+    }
+
+    .header-container {
+      background-color: #005b96;
+      color: white;
+      width: 100%;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    .profile-info {
+      background-color: #ffffff;
+      margin: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 80%;
+      max-width: 700px;
+      font-size: 14px;
+    }
+
+    .profile-info p {
+      margin: 5px 0;
+    }
+
+    .profile-info strong {
+      display: inline-block;
+      width: 200px;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 80%;
+      max-width: 700px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .container p {
+      text-align: left;
+    }
+
+    /* ✅ Ensure long lines like URLs break properly */
+    #info p {
+      word-break: break-word;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      text-align: left;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 16px;
+      min-width: 150px;
+      background-color: lightblue;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #add8e6;
+    }
+
+    /* ✅ DARK THEME STYLES */
+    body.dark-theme {
+      background-color: #121212;
+      color: white;
+    }
+
+    .dark-theme .header-container {
+      background-color: #1f1f1f;
+      color: white;
+    }
+
+    .dark-theme .profile-info,
+    .dark-theme .container {
+      background-color: #2a2a2a;
+      color: white;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    }
+
+    .dark-theme button {
+      background-color: #444;
+      color: white;
+    }
+
+    .dark-theme button:hover {
+      background-color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <div class="header-container">
+    <h1 id="pageTitle">Browser Dashboard</h1>
+    <h2>Joan Mae Palaypayon</h2>
+  </div>
+
+  <!-- Profile Info -->
+  <div class="profile-info">
+    <p><strong>Sex:</strong> Female</p>
+    <p><strong>Address:</strong> Ponglon, San Jose, Camarines Sur</p>
+    <p><strong>Course/Year/Section:</strong> BSIT_2B</p>
+    <p><strong>Name of School:</strong> Partido State University (PSU)</p>
+    <p><strong>Semester and Academic Year:</strong> 2nd Sem / 2024–2025</p>
+    <p><strong>Subject Code and Title:</strong> PF2 – Event Driven Programming</p>
+    <p><strong>Instructor:</strong> Arjay Abio</p>
+  </div>
+
+  <!-- Browser Info -->
+  <div class="container">
+    <div id="info"></div>
+    <div class="button-group">
+      <button id="goBack">Go Back</button>
+      <button id="goForward">Go Forward</button>
+      <button id="reloadPage">Reload Page</button>
+      <button id="changeLocation">Change Location</button>
+      <button id="windowSize">Show Window Size</button>
+      <button id="toggleTheme">Toggle Theme</button>
+      <button id="changeTitleBtn">Change Title</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      function changeBackgroundColor() {
+        const width = window.innerWidth;
+        if (width < 600) {
+          document.body.style.backgroundColor = 'lightblue';
+        } else if (width >= 600 && width <= 991) {
+          document.body.style.backgroundColor = 'lightgreen';
+        } else {
+          document.body.style.backgroundColor = '#ffd79b';
+        }
+      }
+
+      // Load theme from localStorage
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add("dark-theme");
+      }
+
+      // Load title from localStorage
+      if (localStorage.getItem('title')) {
+        document.title = localStorage.getItem('title');
+        document.getElementById("pageTitle").textContent = localStorage.getItem('title');
+      }
+
+      changeBackgroundColor();
+      window.addEventListener('resize', changeBackgroundColor);
+
+      const infoDiv = document.getElementById("info");
+      infoDiv.innerHTML = `
+        <p><strong>Browser:</strong> ${navigator.appName}</p>
+        <p><strong>Version:</strong> ${navigator.appVersion}</p>
+        <p><strong>Platform:</strong> ${navigator.platform}</p>
+        <p><strong>Java Enabled:</strong> ${navigator.javaEnabled()}</p>
+        <p><strong>Color Depth:</strong> ${screen.colorDepth} bits</p>
+        <p><strong>Screen Width:</strong> ${screen.width}px</p>
+        <p><strong>Screen Height:</strong> ${screen.height}px</p>
+        <p><strong>Current URL:</strong> ${location.href}</p>
+        <p><strong>Document Title:</strong> ${document.title}</p>
+      `;
+
+      document.getElementById("goBack").addEventListener("click", function () {
+        if (document.referrer && new URL(document.referrer).origin === location.origin) {
+          history.back();
+        } else {
+          window.location.href = "index.html";
+        }
+      });
+
+      document.getElementById("goForward").addEventListener("click", function () {
+        history.forward();
+      });
+
+      document.getElementById("reloadPage").addEventListener("click", function () {
+        location.reload();
+      });
+
+      document.getElementById("changeLocation").addEventListener("click", function () {
+        const newURL = prompt("Enter a URL to navigate:", "https://www.google.com");
+        if (newURL) location.href = newURL;
+      });
+
+      document.getElementById("windowSize").addEventListener("click", function () {
+        alert(`Window Size: Width = ${window.innerWidth}, Height = ${window.innerHeight}`);
+      });
+
+      document.getElementById("toggleTheme").addEventListener("click", function () {
+        document.body.classList.toggle("dark-theme");
+        const isDark = document.body.classList.contains("dark-theme");
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      });
+
+      document.getElementById("changeTitleBtn").addEventListener("click", function () {
+        const newTitle = prompt("Enter a new page title:", document.title);
+        if (newTitle) {
+          document.title = newTitle;
+          document.getElementById("pageTitle").textContent = newTitle;
+          localStorage.setItem('title', newTitle);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

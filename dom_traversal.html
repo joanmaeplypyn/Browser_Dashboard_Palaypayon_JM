@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DOM Traversal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    header {
+      text-align: left;
+      margin-bottom: 20px;
+      max-width: 1000px;
+      margin: 30px auto 0;
+      padding: 20px;
+      background-color: lightblue;
+      color: #333;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      gap: 20px;
+      flex-wrap: wrap; 
+    }
+    .grandparent {
+      background-color: pink;
+      padding: 40px;
+      display: inline-block;
+      width: 250px;
+      border-radius: 10px;
+    }
+    .parent {
+      background-color: #cce5ff;
+      padding: 20px;
+      margin: 15px;
+      border-radius: 5px;
+    }
+    .child {
+      background-color: lightyellow;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .highlight {
+      border: 3px solid red;
+      background-color: lightgreen !important;
+    }
+    button {
+      background-color: lightblue;
+      margin: 5px;
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+     
+<header> 
+  <strong>Complete Name:</strong> Joan Mae B. Palaypayon<br>
+  <strong>Sex:</strong> Female<br>
+  <strong>Address:</strong> Ponglon, San Jose, Camarines Sur<br>
+  <strong>Course, Year, and Section:</strong> BSIT-2B<br>
+  <strong>Name of School:</strong> Partido State University<br>
+  <strong>Semester and Academic Year:</strong> 2nd Semester, AY 2024-2025<br>
+  <strong>Subject Code and Title:</strong> PF2 - Event Driven Programming<br>
+  <strong>Name of Subject Instructor:</strong> Arjay Abio
+</header>
+
+<h2>DOM Traversal Interactive</h2>
+<div class="grandparent" id="grandparent">Grandparent
+  <div class="parent">Parent 1
+    <div class="child">Child 1</div>
+    <div class="child">Child 2</div>
+  </div>
+  <div class="parent">Parent 2
+    <div class="child">Child 3</div>
+    <div class="child">Child 4</div>
+  </div>
+</div>
+
+<br><br> 
+<button onclick="traverseDown()">Traverse Down</button> 
+<button onclick="traverseUp()">Traverse Up</button>
+<button onclick="traverseNext()">Traverse Next Sibling</button>
+<button onclick="traversePrevious()">Traverse Previous Sibling</button>
+<button onclick="addChild()">Add Child</button>
+<button onclick="deleteNode()">Delete Current</button>
+<button onlick><a href="index.html" class="go-back-button">Go Back to Homepage</a></button>
+  
+<script> // Start of JavaScript code
+  let current = null;
+
+  document.querySelectorAll('.grandparent, .parent, .child').forEach(el => {
+    el.addEventListener('click', function (e) {
+      e.stopPropagation(); 
+      if (current) current.classList.remove('highlight');
+      current = this;
+      current.classList.add('highlight');
+    });
+  });
+ // Traverse down to the first child node
+  function traverseDown() {
+    if (current && current.firstElementChild) {
+      selectNode(current.firstElementChild);
+    }
+  }
+ // Traverse up to the parent node
+  function traverseUp() {
+    if (current && current.parentElement && current.parentElement.classList.contains('grandparent') || current.parentElement.classList.contains('parent')) {
+      selectNode(current.parentElement);
+    }
+  }
+ // Traverse to the next sibling
+  function traverseNext() {
+    if (current && current.nextElementSibling) {
+      selectNode(current.nextElementSibling);
+    }
+  }
+ // Traverse to the previous sibling
+
+  function traversePrevious() {
+    if (current && current.previousElementSibling) {
+      selectNode(current.previousElementSibling);
+    }
+  }
+ // Add child nodes dynamically
+  function addChild() {
+    if (!current) return;
+    
+    if (current.classList.contains('grandparent')) {
+      let newParent = document.createElement('div');
+      newParent.className = 'parent';
+      newParent.textContent = 'New Parent';
+      
+      let child1 = document.createElement('div');
+      child1.className = 'child';
+      child1.textContent = 'New Child 1';
+      
+      let child2 = document.createElement('div');
+      child2.className = 'child';
+      child2.textContent = 'New Child 2';
+      newParent.appendChild(child1);
+      newParent.appendChild(child2);
+      current.appendChild(newParent);
+      attachClickEvents();
+    } else if (current.classList.contains('parent')) {
+      let newChild = document.createElement('div');
+      newChild.className = 'child';
+      newChild.textContent = 'New Child';
+      current.appendChild(newChild);
+      attachClickEvents();
+    } else {
+      alert("Can't add child to a child node.");
+    }
+  }
+// Delete selected nodes with proper restrictions
+  function deleteNode() {
+    if (!current) return;
+    if (current.id === 'grandparent') {
+      alert("Grandparent node can't be deleted.");
+      return;
+    }
+    let toDelete = current;
+    traverseUp(); // Move selection before deleting
+    toDelete.remove();
+  }
+// Select elements (nodes) in the DOM
+  function selectNode(node) {
+    if (current) current.classList.remove('highlight');
+    current = node;
+    current.classList.add('highlight');
+  }
+
+  function attachClickEvents() {
+    document.querySelectorAll('.grandparent, .parent, .child').forEach(el => {
+      el.onclick = function (e) {
+        e.stopPropagation();
+        if (current) current.classList.remove('highlight');
+        current = this;
+        current.classList.add('highlight');
+      };
+    });
+  }
+  // Go back to my homepage or index.html
+  document.getElementById("goBack").addEventListener("click", function () {
+        if (document.referrer && new URL(document.referrer).origin === location.origin) {
+          history.back();
+        } else {
+          window.location.href = "index.html";
+        }
+      });
+    // Background color animation
+  const colors = ['#e6f7ff', '#ffe6e6', '#f0fff0', '#f9f9f9', '#fff0f5', '#fffacd'];
+    let currentColor = 0;
+    setInterval(() => {
+      document.body.style.backgroundColor = colors[currentColor];
+      currentColor = (currentColor + 1) % colors.length;
+    }, 3000); 
+</script>
+</body>
+</html>
